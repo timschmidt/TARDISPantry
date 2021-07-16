@@ -105,14 +105,22 @@ module shelf_dxf()
                 dogbone_rectangle(size = [3/4 * 25.4, 3 * 25.4], r = 1/8 * 25.4, center = true, xy_center = true, x_offset = 0, y_offset = 0);
             }
     }
+    
+module side_trim_dxf()
+    dxf("side_trim"){
+        render_2D_sheet(MDF19, w = undef, d = undef)
+            sheet_2D(MDF19, 24.75 * 25.4, 3*25.4, [10,10,10,10]);
+    }
+    
+module face_trim_dxf()
+    dxf("face_trim"){
+        render_2D_sheet(MDF19, w = undef, d = undef)
+            sheet_2D(MDF19, 26.25 * 25.4, 3*25.4, [10,10,10,10]);
+    }
 
 //! Assembly instructions in Markdown format in front of each module that makes an assembly.
 module main_assembly()
 assembly("main") {
-    
-    rotate([0,0,0])
-    //door_assembly();
-
     translate([0,-12*25.4,30*25.4])
     rotate([90,0,0])
     door_side_dxf();
@@ -121,9 +129,10 @@ assembly("main") {
     rotate([90,0,0])
     rear_side_dxf();
     
-    //translate([0,-12.75*25.4,30*25.4])
-    //rotate([90,0,0])
-    //grid_dxf();
+    translate([-10*25.4,-22*25.4,30*25.4])
+    rotate([90,0,90])
+    grid_dxf();
+    //door_assembly();
     
     translate([-12*25.4,0,30*25.4])
     rotate([90,0,90])
@@ -131,6 +140,10 @@ assembly("main") {
     
     translate([-12.75*25.4,0,30*25.4])
     rotate([90,0,90])
+    grid_side_dxf();
+    
+    translate([0,12.75*25.4,30*25.4])
+    rotate([90,0,0])
     grid_side_dxf();
 
     translate([12*25.4,0,30*25.4])
@@ -140,6 +153,22 @@ assembly("main") {
     translate([12.75*25.4,0,30*25.4])
     rotate([90,0,90])
     grid_side_dxf();
+    
+    translate([12.75*25.4,0,1.5*25.4])
+    rotate([90,0,90])
+    side_trim_dxf();
+    
+    translate([-12.75*25.4,0,1.5*25.4])
+    rotate([90,0,90])
+    side_trim_dxf();
+    
+    translate([0,12.75*25.4,1.5*25.4])
+    rotate([90,0,0])
+    face_trim_dxf();
+
+    translate([0,-12.75*25.4,1.5*25.4])
+    rotate([90,0,0])
+    face_trim_dxf();    
     
     top_dxf();
     
