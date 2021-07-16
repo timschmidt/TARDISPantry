@@ -96,8 +96,8 @@ module grid_side_dxf()
             }
     }
     
-module bottom_dxf()
-    dxf("bottom"){
+module shelf_dxf()
+    dxf("shelf"){
         render_2D_sheet(MDF19, w = undef, d = undef)
             difference() {
                 sheet_2D(MDF19, 23.25 * 25.4, 23.25*25.4, [10,10,10,10]);
@@ -141,12 +141,19 @@ assembly("main") {
     rotate([90,0,90])
     grid_side_dxf();
     
-    shelf_dxf();
-    
     top_dxf();
     
     translate([0,0,4*25.4])
-    bottom_dxf();
+    shelf_dxf();
+
+    translate([0,0,18*25.4])
+    shelf_dxf();
+    
+    translate([0,0,32*25.4])
+    shelf_dxf();
+
+    translate([0,0,46*25.4])
+    shelf_dxf();
 }
 
 if($preview)
