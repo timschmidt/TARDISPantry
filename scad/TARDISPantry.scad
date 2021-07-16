@@ -7,7 +7,7 @@ module rear_side_dxf()
     dxf("rear_side"){
         render_2D_sheet(MDF19, w = undef, d = undef)
             difference() {
-                sheet_2D(MDF19, 24 * 25.4, 60*25.4, [10,10,10,10]);
+                sheet_2D(MDF19, 24.75 * 25.4, 60*25.4, [10,10,10,10]);
 
                 dogbone_rectangle(size = [3/4 * 25.4, 3 * 25.4], r = 1/8 * 25.4, center = true, xy_center = true, x_offset = 0, y_offset = 0);
             }
@@ -17,7 +17,7 @@ module side_dxf()
     dxf("rear_side"){
         render_2D_sheet(MDF19, w = undef, d = undef)
             difference() {
-                sheet_2D(MDF19, 24 * 25.4, 60*25.4, [10,10,10,10]);
+                sheet_2D(MDF19, 23.25 * 25.4, 60*25.4, [10,10,10,10]);
 
                 dogbone_rectangle(size = [3/4 * 25.4, 3 * 25.4], r = 1/8 * 25.4, center = true, xy_center = true, x_offset = 0, y_offset = 0);
             }
@@ -27,7 +27,7 @@ module door_side_dxf()
     dxf("rear_side"){
         render_2D_sheet(MDF19, w = undef, d = undef)
             difference() {
-                sheet_2D(MDF19, 24 * 25.4, 60*25.4, [10,10,10,10]);
+                sheet_2D(MDF19, 24.75 * 25.4, 60*25.4, [10,10,10,10]);
 
                 dogbone_rectangle(size = [3/4 * 25.4, 3 * 25.4], r = 1/8 * 25.4, center = true, xy_center = true, x_offset = 0, y_offset = 0);
             }
