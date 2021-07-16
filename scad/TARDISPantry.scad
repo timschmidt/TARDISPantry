@@ -29,7 +29,7 @@ module door_side_dxf()
             difference() {
                 sheet_2D(MDF19, 24.75 * 25.4, 60*25.4, [10,10,10,10]);
 
-                dogbone_rectangle(size = [3/4 * 25.4, 3 * 25.4], r = 1/8 * 25.4, center = true, xy_center = true, x_offset = 0, y_offset = 0);
+                square([19*25.4, 49*25.4], center=true);
             }
     }
     
@@ -95,6 +95,16 @@ module grid_side_dxf()
                 dogbone_rectangle(size = [3/4 * 25.4, 3 * 25.4], r = 1/8 * 25.4, center = true, xy_center = true, x_offset = 0, y_offset = 0);
             }
     }
+    
+module bottom_dxf()
+    dxf("bottom"){
+        render_2D_sheet(MDF19, w = undef, d = undef)
+            difference() {
+                sheet_2D(MDF19, 23.25 * 25.4, 23.25*25.4, [10,10,10,10]);
+
+                dogbone_rectangle(size = [3/4 * 25.4, 3 * 25.4], r = 1/8 * 25.4, center = true, xy_center = true, x_offset = 0, y_offset = 0);
+            }
+    }
 
 //! Assembly instructions in Markdown format in front of each module that makes an assembly.
 module main_assembly()
@@ -111,9 +121,9 @@ assembly("main") {
     rotate([90,0,0])
     rear_side_dxf();
     
-    translate([0,-12.75*25.4,30*25.4])
-    rotate([90,0,0])
-    grid_dxf();
+    //translate([0,-12.75*25.4,30*25.4])
+    //rotate([90,0,0])
+    //grid_dxf();
     
     translate([-12*25.4,0,30*25.4])
     rotate([90,0,90])
@@ -135,6 +145,7 @@ assembly("main") {
     
     top_dxf();
     
+    translate([0,0,4*25.4])
     bottom_dxf();
 }
 
