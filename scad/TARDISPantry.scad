@@ -3,28 +3,34 @@ $pp1_colour = "grey";           // Override any global defaults here if required
 include <NopSCADlib/lib.scad>   // Includes all the vitamins and utilities in NopSCADlib but not the printed parts.
 include <NopSCADlib/printed/flat_hinge.scad> // Includes door hinges
 
-panel_thinckness = 3/4 * 25.4;
-panel_width = 4 * 12 * 25.4;
-panel_height = 8 * 12 * 25.4;
-
 module rear_side_dxf()
     dxf("rear_side"){
         render_2D_sheet(MDF19, w = undef, d = undef)
             difference() {
-                sheet_2D(MDF19, 48 * 25.4, 96*25.4, [10,10,10,10]);
+                sheet_2D(MDF19, 24 * 25.4, 60*25.4, [10,10,10,10]);
 
-                //circle(3);
+                dogbone_rectangle(size = [3/4 * 25.4, 3 * 25.4], r = 1/8 * 25.4, center = true, xy_center = true, x_offset = 0, y_offset = 0);
             }
     }
 
 module side_dxf()
-    dxf("side"){
-        dogbone_rectangle(size = [3/4 * 25.4, 3 * 25.4], r = cnc_bit_r, center = true, xy_center = true, x_offset, y_offset);
+    dxf("rear_side"){
+        render_2D_sheet(MDF19, w = undef, d = undef)
+            difference() {
+                sheet_2D(MDF19, 24 * 25.4, 60*25.4, [10,10,10,10]);
+
+                dogbone_rectangle(size = [3/4 * 25.4, 3 * 25.4], r = 1/8 * 25.4, center = true, xy_center = true, x_offset = 0, y_offset = 0);
+            }
     }
 
 module door_side_dxf()
-    dxf("door_side"){
-        
+    dxf("rear_side"){
+        render_2D_sheet(MDF19, w = undef, d = undef)
+            difference() {
+                sheet_2D(MDF19, 24 * 25.4, 60*25.4, [10,10,10,10]);
+
+                dogbone_rectangle(size = [3/4 * 25.4, 3 * 25.4], r = 1/8 * 25.4, center = true, xy_center = true, x_offset = 0, y_offset = 0);
+            }
     }
     
 module door_assembly()
@@ -46,8 +52,13 @@ module door_assembly()
     }
 
 module door_dxf()
-    dxf("door"){
-        door_hinge_assembly(top, door_thickness = 6);
+    dxf("rear_side"){
+        render_2D_sheet(MDF19, w = undef, d = undef)
+            difference() {
+                sheet_2D(MDF19, 20 * 25.4, 50*25.4, [10,10,10,10]);
+
+                dogbone_rectangle(size = [3/4 * 25.4, 3 * 25.4], r = 1/8 * 25.4, center = true, xy_center = true, x_offset = 0, y_offset = 0);
+            }
     }
 
 module corner_bracket_dxf()
@@ -66,15 +77,65 @@ module lid_assembly()
     }
 
 module grid_dxf()
-    dxf(""){
-        
+    dxf("grid"){
+        render_2D_sheet(MDF19, w = undef, d = undef)
+            difference() {
+                sheet_2D(MDF19, 20 * 25.4, 50*25.4, [10,10,10,10]);
+
+                dogbone_rectangle(size = [3/4 * 25.4, 3 * 25.4], r = 1/8 * 25.4, center = true, xy_center = true, x_offset = 0, y_offset = 0);
+            }
+    }
+    
+module grid_side_dxf()
+    dxf("grid_side"){
+        render_2D_sheet(MDF19, w = undef, d = undef)
+            difference() {
+                sheet_2D(MDF19, 20 * 25.4, 50*25.4, [10,10,10,10]);
+
+                dogbone_rectangle(size = [3/4 * 25.4, 3 * 25.4], r = 1/8 * 25.4, center = true, xy_center = true, x_offset = 0, y_offset = 0);
+            }
     }
 
 //! Assembly instructions in Markdown format in front of each module that makes an assembly.
 module main_assembly()
 assembly("main") {
+    
+    rotate([0,0,0])
     //door_assembly();
+
+    translate([0,-12*25.4,30*25.4])
+    rotate([90,0,0])
+    door_side_dxf();
+
+    translate([0,12*25.4,30*25.4])
+    rotate([90,0,0])
     rear_side_dxf();
+    
+    translate([0,-12.75*25.4,30*25.4])
+    rotate([90,0,0])
+    grid_dxf();
+    
+    translate([-12*25.4,0,30*25.4])
+    rotate([90,0,90])
+    side_dxf();
+    
+    translate([-12.75*25.4,0,30*25.4])
+    rotate([90,0,90])
+    grid_side_dxf();
+
+    translate([12*25.4,0,30*25.4])
+    rotate([90,0,90])
+    side_dxf();
+
+    translate([12.75*25.4,0,30*25.4])
+    rotate([90,0,90])
+    grid_side_dxf();
+    
+    shelf_dxf();
+    
+    top_dxf();
+    
+    bottom_dxf();
 }
 
 if($preview)
