@@ -90,6 +90,16 @@ module top2_dxf()
                 dogbone_rectangle(size = [3/4 * 25.4, 3 * 25.4], r = 1/8 * 25.4, center = true, xy_center = true, x_offset = 0, y_offset = 0);
             }
     }
+    
+module top3_dxf()
+    dxf("top3"){
+        render_2D_sheet(MDF19, w = undef, d = undef)
+            difference() {
+                sheet_2D(MDF19, 18 * 25.4, 18*25.4, [10,10,10,10]);
+
+                dogbone_rectangle(size = [3/4 * 25.4, 3 * 25.4], r = 1/8 * 25.4, center = true, xy_center = true, x_offset = 0, y_offset = 0);
+            }
+    }
 
 module lid_assembly()
     assembly("lid"){
@@ -108,12 +118,31 @@ module lid_assembly()
     translate([0,-10.75*25.4,3*25.4])
     rotate([90,0,0])
     top_face_trim_dxf();
+        
+    translate([8.65*25.4,0,6.75*25.4])
+    rotate([90,0,90])
+    top2_side_trim_dxf();
+    
+    translate([-8.65*25.4,0,6.75*25.4])
+    rotate([90,0,90])
+    top2_side_trim_dxf();
+        
+    translate([0,8.65*25.4,6.75*25.4])
+    rotate([90,0,0])
+    top2_face_trim_dxf();
+
+    translate([0,-8.65*25.4,6.75*25.4])
+    rotate([90,0,0])
+    top2_face_trim_dxf();
     
     translate([0,0,1.125*25.4])
     top_dxf();
         
     translate([0,0,4.875*25.4])
     top2_dxf();
+    
+    translate([0,0,8.625*25.4])
+    top3_dxf();
     }
 
 module grid_dxf()
@@ -168,6 +197,18 @@ module top_face_trim_dxf()
     dxf("face_trim"){
         render_2D_sheet(MDF19, w = undef, d = undef)
             sheet_2D(MDF19, 22.25 * 25.4, 3*25.4, [10,10,10,10]);
+    }
+    
+module top2_side_trim_dxf()
+    dxf("side_trim"){
+        render_2D_sheet(MDF19, w = undef, d = undef)
+            sheet_2D(MDF19, 16.5 * 25.4, 3*25.4, [10,10,10,10]);
+    }
+    
+module top2_face_trim_dxf()
+    dxf("face_trim"){
+        render_2D_sheet(MDF19, w = undef, d = undef)
+            sheet_2D(MDF19, 18 * 25.4, 3*25.4, [10,10,10,10]);
     }
 
 //! Assembly instructions in Markdown format in front of each module that makes an assembly.
