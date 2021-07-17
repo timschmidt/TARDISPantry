@@ -67,13 +67,40 @@ module corner_bracket_dxf()
     }
 
 module window_dxf()
-    dxf("widnow"){
+    dxf("window"){
         
+    }
+    
+module top_dxf()
+    dxf("top"){
+        render_2D_sheet(MDF19, w = undef, d = undef)
+            difference() {
+                sheet_2D(MDF19, 24.75 * 25.4, 24.75*25.4, [10,10,10,10]);
+
+                dogbone_rectangle(size = [3/4 * 25.4, 3 * 25.4], r = 1/8 * 25.4, center = true, xy_center = true, x_offset = 0, y_offset = 0);
+            }
     }
 
 module lid_assembly()
-    addembly("lid"){
-        
+    assembly("lid"){
+    translate([12.75*25.4,0,0])
+    rotate([90,0,90])
+    side_trim_dxf();
+    
+    translate([-12.75*25.4,0,0])
+    rotate([90,0,90])
+    side_trim_dxf();
+    
+    translate([0,12.75*25.4,0])
+    rotate([90,0,0])
+    face_trim_dxf();
+
+    translate([0,-12.75*25.4,0])
+    rotate([90,0,0])
+    face_trim_dxf();
+    
+    translate([0,0,1.125*25.4])
+    top_dxf();
     }
 
 module grid_dxf()
@@ -168,9 +195,10 @@ assembly("main") {
 
     translate([0,-12.75*25.4,1.5*25.4])
     rotate([90,0,0])
-    face_trim_dxf();    
-    
-    top_dxf();
+    face_trim_dxf();
+         
+    translate([0,0,59.25*25.4])
+    lid_assembly();
     
     translate([0,0,4*25.4])
     shelf_dxf();
