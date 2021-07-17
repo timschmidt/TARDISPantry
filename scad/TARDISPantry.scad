@@ -80,27 +80,40 @@ module top_dxf()
                 dogbone_rectangle(size = [3/4 * 25.4, 3 * 25.4], r = 1/8 * 25.4, center = true, xy_center = true, x_offset = 0, y_offset = 0);
             }
     }
+    
+module top2_dxf()
+    dxf("top2"){
+        render_2D_sheet(MDF19, w = undef, d = undef)
+            difference() {
+                sheet_2D(MDF19, 22.25 * 25.4, 22.25*25.4, [10,10,10,10]);
+
+                dogbone_rectangle(size = [3/4 * 25.4, 3 * 25.4], r = 1/8 * 25.4, center = true, xy_center = true, x_offset = 0, y_offset = 0);
+            }
+    }
 
 module lid_assembly()
     assembly("lid"){
-    translate([12.75*25.4,0,0])
+    translate([10.75*25.4,0,3*25.4])
     rotate([90,0,90])
-    side_trim_dxf();
+    top_side_trim_dxf();
     
-    translate([-12.75*25.4,0,0])
+    translate([-10.75*25.4,0,3*25.4])
     rotate([90,0,90])
-    side_trim_dxf();
+    top_side_trim_dxf();
     
-    translate([0,12.75*25.4,0])
+    translate([0,10.75*25.4,3*25.4])
     rotate([90,0,0])
-    face_trim_dxf();
+    top_face_trim_dxf();
 
-    translate([0,-12.75*25.4,0])
+    translate([0,-10.75*25.4,3*25.4])
     rotate([90,0,0])
-    face_trim_dxf();
+    top_face_trim_dxf();
     
     translate([0,0,1.125*25.4])
     top_dxf();
+        
+    translate([0,0,4.875*25.4])
+    top2_dxf();
     }
 
 module grid_dxf()
@@ -143,6 +156,18 @@ module face_trim_dxf()
     dxf("face_trim"){
         render_2D_sheet(MDF19, w = undef, d = undef)
             sheet_2D(MDF19, 26.25 * 25.4, 3*25.4, [10,10,10,10]);
+    }
+    
+module top_side_trim_dxf()
+    dxf("side_trim"){
+        render_2D_sheet(MDF19, w = undef, d = undef)
+            sheet_2D(MDF19, 20.75 * 25.4, 3*25.4, [10,10,10,10]);
+    }
+    
+module top_face_trim_dxf()
+    dxf("face_trim"){
+        render_2D_sheet(MDF19, w = undef, d = undef)
+            sheet_2D(MDF19, 22.25 * 25.4, 3*25.4, [10,10,10,10]);
     }
 
 //! Assembly instructions in Markdown format in front of each module that makes an assembly.
